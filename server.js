@@ -3,6 +3,10 @@ const path = require('path');
 
 const app = express();
 
+app.use('/admin', (req, res) => {
+  res.sendFile(path.join(__dirname, '/views/need_login.html'));
+});
+
 app.use((req, res, next) => {
   res.show = (name) => {
     res.sendFile(path.join(__dirname, `/views/${name}`));
@@ -18,6 +22,11 @@ app.get(/^(\/|\/home)$/, (req, res) => {
 
 app.get('/about', (req, res) => {
   res.show('about.html');
+});
+
+app.use('/admin', (req, res, next) => {
+  if(isAdmin()) next();
+  else res.send('Go away!');
 });
 
 app.use((req, res) => {
