@@ -24,11 +24,6 @@ app.get('/about', (req, res) => {
   res.show('about.html');
 });
 
-app.use('/admin', (req, res, next) => {
-  if(isAdmin()) next();
-  else res.send('Go away!');
-});
-
 app.use((req, res) => {
   res.status(404).show('404.html');
 })
